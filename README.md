@@ -32,3 +32,15 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Prisma ORM
+- Install Prisma Client: npm i @prisma/client
+- Install Prisma as dev dependency: npm i prisma --save-dev
+- Initialize Prisma: npx prisma init
+  
+## OpenAI API Account Setup
+- Create an openai.com account
+- Select the API App.
+- Create an API Key
+- Copy/Paste the key into your into .env.local using the variable OPENAI_API_KEY
+
