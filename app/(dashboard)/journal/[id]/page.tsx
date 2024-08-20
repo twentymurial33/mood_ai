@@ -1,28 +1,44 @@
-import Editor from '@/components/Editor'
+import EntryCard from '@/components/EntryCard'
+import NewEntryCard from '@/components/NewEntryCard'
+import Question from '@/components/Question'
+import { analyze } from '@/utils/ai'
 import { getUserByClerkID } from '@/utils/auth'
 import { prisma } from '@/utils/db'
+import Link from 'next/link'
 
-const getEntry = async (id) => {
+const getEntries = async () => {
   const user = await getUserByClerkID()
-  const entry = await prisma.journalEntry.findUnique({
+  const entries = await prisma.journalEntry.findMany({
     where: {
-      userId_id: {
-        userId: user.id,
-        id,
-      },
+      userId: user.id,
+    },
+    orderBy: {
+      createdAt: 'desc',
     },
   })
 
-  return entry
+  return entries
 }
 
-const EntryPage = async ({ params }) => {
-  const entry = await getEntry(params.id)
+const JournalPage = async () => {
+  const entries = await getEntries()
+
   return (
-    <div className="h-full w-full">
-      <Editor entry={entry} />
+    <div className="p-10 bg-zinc-400/10 h-full">
+      <h2 className="text-3xl mb-8">Journal</h2>
+      <div className="my-8">
+        <Question />
+      </div>
+      <div className="grid grid-cols-3 gap-4 ">
+        <NewEntryCard />
+        {entries.map((entry) => (
+          <Link href={`/journal/${entry.id}`} key={entry.id}>
+            <EntryCard entry={entry} />
+          </Link>
+        ))}
+      </div>
     </div>
   )
 }
 
-export default EntryPage
+export default JournalPage
